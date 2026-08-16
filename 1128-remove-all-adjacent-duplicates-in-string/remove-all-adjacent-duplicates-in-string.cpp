@@ -1,14 +1,22 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        int top = -1;
-        for(int i =0 ; i < s.size(); i++){
-            if(top >= 0 && s[top] == s[i]){
-                top--;
+        stack<char> st;
+        for(char ch : s){
+            if(!st.empty() && st.top() == ch ){
+                st.pop();
+
             }else{
-                s[++top] = s[i];
+                st.push(ch);
             }
         }
-        return s.substr(0, top + 1);
+        string ans = "";
+        while(!st.empty()){
+            ans += st.top();
+            st.pop();
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    
     }
 };
