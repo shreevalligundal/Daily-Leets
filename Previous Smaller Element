@@ -1,0 +1,54 @@
+vector<int> previousSmaller(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> ans(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && st.top() >= arr[i]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            ans[i] = st.top();
+        }
+        st.push(arr[i]);
+    }
+    return ans;
+};
+
+1. Intuition
+For every element, we need to find the nearest smaller element on its left.
+A brute-force solution checks all previous elements, taking O(n²) time.
+We can optimize this using a monotonic increasing stack.
+Since we need information from the left, we traverse the array left to right.
+
+2. Approach
+Create an answer array initialized with -1.
+Create an empty stack to store elements.
+Traverse the array from left to right.
+While the stack is not empty and the top element is greater than or equal to the current element, pop it because it cannot be the previous smaller element.
+If the stack is not empty, the top of the stack is the previous smaller element.
+Store it in the answer array.
+Push the current element onto the stack.
+
+3. Why This Works
+The stack always contains elements in increasing order.
+Before processing the current element, all elements that are greater than or equal to it are removed.
+Therefore, the top of the stack is always the nearest smaller element on the left.
+
+4. Algorithm
+Initialize answer array with -1.
+Create an empty stack.
+Traverse from left to right.
+While stack is not empty AND
+      stack.top() >= current element:
+      Pop
+If stack is not empty:
+      answer[i] = stack.top()
+Push current element.
+Return answer.
+
+Complexity
+Time Complexity : O(n)
+Space Complexity: O(n)
+Reason:
+Every element is pushed exactly once.
+Every element is popped at most once.
