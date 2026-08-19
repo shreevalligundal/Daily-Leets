@@ -1,0 +1,61 @@
+vector<int> nextGreaterElements(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n,-1);
+        stack<int> st;
+        for(int i = n-1;i>=0;i--){
+            while(!st.empty() && st.top() <= nums[i]){
+                st.pop();
+            }
+            if(!st.empty()){
+                ans[i] = st.top();
+            }
+            st.push(nums[i]);
+        }
+        return ans;
+  }
+
+1. Intuition
+For every element, we need to find the first greater element on its right.
+A brute-force approach checks every element to the right, resulting in O(n²) time.
+Instead, we use a monotonic decreasing stack to efficiently keep track of potential next greater elements.
+We traverse from right to left because all elements to the right are already processed.
+
+2. Approach
+Create an answer array initialized with -1 because some elements may not have a next greater element.
+Create an empty stack to store elements (or indices, depending on the problem).
+Traverse the array from right to left.
+While the stack is not empty and the top of the stack is less than or equal to the current element, pop it because it cannot be the next greater element.
+If the stack is not empty after popping, the top of the stack is the next greater element for the current element.
+Store it in the answer array.
+Push the current element onto the stack so it can act as the next greater element for elements to its left.
+
+3. Why This Works
+The stack always contains elements greater than the current element.
+Smaller or equal elements are removed because they can never be the next greater element for the current or any earlier element.
+Therefore, the top of the stack always represents the nearest greater element on the right.
+
+4. Algorithm
+Initialize answer array with -1.
+Create an empty stack.
+Traverse from right to left.
+While stack is not empty and stack.top() <= current element:
+    Pop the stack.
+If stack is not empty:
+    answer[i] = stack.top()
+Push current element onto the stack.
+Return answer.
+
+5. Complexity
+Time Complexity : O(n)
+Space Complexity: O(n)
+
+Reason:
+Every element is pushed exactly once.
+Every element is popped at most once.
+
+6. Pattern
+Pattern: Monotonic Decreasing Stack (Next Greater Element)
+Recognition Clues : 
+Next greater element
+Nearest greater element to the right
+First greater element after the current element
