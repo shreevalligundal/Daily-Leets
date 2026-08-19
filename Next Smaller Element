@@ -1,0 +1,52 @@
+vector<int> nextSmaller(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> ans(n, -1);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() >= arr[i]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            ans[i] = st.top();
+        }
+        st.push(arr[i]);
+    }
+    return ans;
+};
+
+
+1. Intuition
+For every element, we need to find the nearest smaller element on its right.
+The brute-force approach checks every element to the right, resulting in O(n²) time.
+Instead, we use a monotonic increasing stack.
+Since we need information from the right, we traverse the array right to left.
+
+2. Approach
+Create an answer array initialized with -1.
+Create an empty stack to store elements.
+Traverse the array from right to left.
+While the stack is not empty and the top element is greater than or equal to the current element, pop it because it cannot be the next smaller element.
+If the stack is not empty, the top of the stack is the next smaller element.
+Store it in the answer array.
+Push the current element onto the stack.
+
+3. Why This Works
+The stack always contains elements that are smaller than the current element.
+Any element that is greater than or equal to the current element is removed because it cannot be the next smaller element.
+Therefore, the top of the stack always represents the nearest smaller element on the right.
+
+4. Algorithm
+Initialize answer array with -1.
+Create an empty stack.
+Traverse from right to left.
+While stack is not empty AND
+      stack.top() >= current element:
+      Pop
+If stack is not empty:
+      answer[i] = stack.top()
+Push current element.
+Return answer
+
+Complexity
+Time Complexity : O(n)
+Space Complexity: O(n)
