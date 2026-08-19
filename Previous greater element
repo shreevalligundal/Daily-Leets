@@ -1,0 +1,77 @@
+vector<int> previousGreater(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> ans(n, -1);
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && st.top() <= arr[i]) {
+            st.pop();
+        }
+        if (!st.empty()) {
+            ans[i] = st.top();
+        }
+        st.push(arr[i]);
+    }
+    return ans;
+};
+
+
+1. Intuition
+For each element, we need to find the nearest greater element on its left.
+Brute force checks every element to the left, taking O(n²) time.
+Instead, use a monotonic decreasing stack.
+Since we need information from the left, we traverse left to right.
+
+2. Approach
+Create an answer array initialized with -1.
+Create an empty stack to store elements.
+Traverse the array from left to right.
+While the stack is not empty and the top element is less than or equal to the current element, pop it because it cannot be the previous greater element.
+If the stack is not empty, the top of the stack is the previous greater element.
+Store it in the answer array.
+Push the current element onto the stack.
+
+3. Why This Works
+The stack always contains elements that are greater than the current element.
+Smaller or equal elements are removed because they can never be the previous greater element for the current or any future element.
+Therefore, the top of the stack is always the nearest greater element on the left.
+
+4. Algorithm
+Initialize answer array with -1.
+Create an empty stack.
+Traverse from left to right.
+While stack is not empty AND
+      stack.top() <= current element:
+      Pop
+If stack is not empty:
+      answer[i] = stack.top()
+Push current element.
+Return answer.
+
+7. Complexity
+Time Complexity : O(n)
+Space Complexity: O(n)
+
+Each element is:
+Pushed once.
+Popped at most once.
+
+8. Pattern
+Pattern: Monotonic Decreasing Stack
+Recognition Clues
+Use this pattern when the problem asks for:
+
+Previous greater element
+Nearest greater element on the left
+First greater element before the current element
+9. Key Takeaways
+Traverse left to right because we need information from the left.
+Store elements if only values are needed; store indices if positions or distances are required.
+Remove all elements that are smaller than or equal to the current element.
+The stack's top always gives the nearest previous greater element.
+
+Monotonic Stack Cheat Sheet
+Problem	Traverse	Stack Type	Pop Condition
+Next Greater Element	     Right → Left	   Decreasing	<= current
+Previous Greater Element	 Left → Right	   Decreasing	<= current
+Next Smaller Element	     Right → Left	   Increasing	>= current
+Previous Smaller Element	 Left → Right	   Increasing	>= current
